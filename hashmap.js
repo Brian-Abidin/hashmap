@@ -28,7 +28,10 @@ export default class HashMap {
     // if key exists, then old value is overwritten
     // or we can say updated key's value
     const index = this.hash(key);
-    if (this.buckets[index] === undefined) {
+    if (
+      this.buckets[index] === undefined ||
+      this.buckets[index].head === null
+    ) {
       const list = new LinkedList();
       list.append(key, value);
       this.buckets[index] = list;
@@ -58,8 +61,8 @@ export default class HashMap {
     if (this.buckets[index] === undefined) return null;
 
     let temp = this.buckets[index].head;
-    while (temp !== undefined) {
-      if (temp === null) return null;
+    console.log(temp);
+    while (temp !== undefined || temp === null) {
       if (temp.key === key) return temp.value;
       temp = temp.nextNode;
     }
