@@ -112,18 +112,56 @@ export default class HashMap {
 
   clear() {
     // removes all entries in the hash map
+    for (let i = 0; i < this.buckets.length; i += 1) {
+      if (this.buckets[i] !== undefined) {
+        this.buckets[i].head = null;
+      }
+    }
   }
 
   keys() {
     // returns array containing all keys inside hash map
+    const keysArray = [];
+    for (let i = 0; i < this.buckets.length; i += 1) {
+      if (this.buckets[i] !== undefined) {
+        let temp = this.buckets[i].head;
+        while (temp !== null) {
+          keysArray.push(temp.key);
+          temp = temp.nextNode;
+        }
+      }
+    }
+    return keysArray;
   }
 
   values() {
     // returns array containing all values
+    const valuesArray = [];
+    for (let i = 0; i < this.buckets.length; i += 1) {
+      if (this.buckets[i] !== undefined) {
+        let temp = this.buckets[i].head;
+        while (temp !== null) {
+          valuesArray.push(temp.value);
+          temp = temp.nextNode;
+        }
+      }
+    }
+    return valuesArray;
   }
 
   entries() {
     // returns array that contains each key, value pair
     // ex.) [[firstKey, firstVal], [secondKey, secondVal]]
+    const entriesArray = [];
+    for (let i = 0; i < this.buckets.length; i += 1) {
+      if (this.buckets[i] !== undefined) {
+        let temp = this.buckets[i].head;
+        while (temp !== null) {
+          entriesArray.push([temp.key, temp.value]);
+          temp = temp.nextNode;
+        }
+      }
+    }
+    return entriesArray;
   }
 }
