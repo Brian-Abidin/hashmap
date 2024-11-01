@@ -19,7 +19,7 @@ export default class HashMap {
       hashCode = primeNumber * hashCode + key.charCodeAt(i);
       hashCode %= this.buckets.length;
     }
-    console.log(hashCode);
+    console.log(hashCode, "hash");
     return hashCode;
   }
 
@@ -36,12 +36,8 @@ export default class HashMap {
       let temp = this.buckets[index].head;
       console.log(temp);
 
-      if (temp.key === key) {
-        temp.value = value;
-        console.log(temp);
-        return;
-      }
-      while (temp.nextNode !== null) {
+      while (temp !== undefined) {
+        console.log(temp, "test");
         if (temp.key === key) {
           temp.value = value;
           return;
@@ -58,11 +54,28 @@ export default class HashMap {
   get(key) {
     // returns value that is assigned to key
     // if key is not found, return null
+    const index = this.hash(key);
+    if (this.buckets[index] === undefined) return null;
+
+    let temp = this.buckets[index].head;
+    while (temp !== undefined) {
+      if (temp.key === key) return temp.value;
+      temp = temp.nextNode;
+    }
+    return null;
   }
 
   has(key) {
     // returns true or false based on whether or not
     // the key is in the hash map
+    const index = this.hash(key);
+    if (this.buckets[index] === undefined) return false;
+    const temp = this.buckets[index].head;
+    while (temp !== undefined) {
+      if (temp.key === key) return true;
+      temp = temp.nextNode;
+    }
+    return false;
   }
 
   remove(key) {
