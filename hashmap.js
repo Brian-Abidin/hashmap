@@ -98,7 +98,16 @@ export default class HashMap {
   }
 
   length() {
-    // returns # of stored keys in map
+    // returns number of stored keys in hash map
+    let count = 0;
+    for (let i = 0; i < this.buckets.length; i += 1) {
+      if (this.buckets[i] !== undefined) {
+        console.log(this.buckets[i].head);
+        count += this.buckets[i].size();
+      }
+    }
+    console.log(count);
+    return count;
   }
 
   clear() {
