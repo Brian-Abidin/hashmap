@@ -35,14 +35,21 @@ export default class HashMap {
     } else {
       let temp = this.buckets[index].head;
       console.log(temp);
-      if (temp.key === key) temp.value = value;
+
+      if (temp.key === key) {
+        temp.value = value;
+        console.log(temp);
+        return;
+      }
       while (temp.nextNode !== null) {
-        console.log(temp.key === key);
         if (temp.key === key) {
           temp.value = value;
+          return;
         }
         temp = this.buckets[index].nextNode;
       }
+      console.log(temp);
+      this.buckets[index].append(key, value);
     }
     console.log(this.buckets[index].head);
     // using the hashCode index, return this key value pair inside a linked list
