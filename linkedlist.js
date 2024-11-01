@@ -35,4 +35,20 @@ export default class LinkedList {
     }
     return count;
   }
+
+  removeAt(index) {
+    if (this.head === null) return "list is empty";
+    let temp = this.head;
+    if (index === 0) {
+      this.head = temp.nextNode;
+      return true;
+    }
+    for (let i = 0; i < this.size(); i += 1) {
+      if (i === index - 1) {
+        temp.nextNode = temp.nextNode.nextNode;
+        return true;
+      }
+      temp = temp.nextNode;
+    }
+  }
 }
