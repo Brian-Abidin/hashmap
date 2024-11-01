@@ -59,6 +59,7 @@ export default class HashMap {
 
     let temp = this.buckets[index].head;
     while (temp !== undefined) {
+      if (temp === null) return null;
       if (temp.key === key) return temp.value;
       temp = temp.nextNode;
     }
@@ -81,6 +82,19 @@ export default class HashMap {
   remove(key) {
     // if key is in hash map, removes the entry then returns true
     // else if the key is not, return false
+    const index = this.hash(key);
+    let count = 0;
+    if (this.buckets[index] === undefined) return false;
+    let temp = this.buckets[index].head;
+    while (temp !== undefined) {
+      if (temp.key === key) {
+        this.buckets[index].removeAt(count);
+        return true;
+      }
+      temp = temp.nextNode;
+      count += 1;
+    }
+    return false;
   }
 
   length() {
