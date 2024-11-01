@@ -5,23 +5,24 @@ export default class LinkedList {
     this.head = null;
   }
 
-  prepend(value) {
-    const node = new Node(value);
+  prepend(key, value) {
+    const node = new Node(key, value);
+    console.log(node);
     let temp = null;
     if (this.head !== null) temp = this.head;
     this.head = node;
     this.head.nextNode = temp;
   }
 
-  append(value) {
+  append(key, value) {
     if (this.head == null) {
-      this.prepend(value);
+      this.prepend(key, value);
     } else {
       let temp = this.head;
       while (this.head.nextNode !== null) {
         temp = this.head.nextNode;
       }
-      temp.nextNode = new Node(value);
+      temp.nextNode = new Node(key, value);
     }
   }
 }
