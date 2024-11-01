@@ -1,3 +1,5 @@
+import LinkedList from "./linkedlist.js";
+
 export default class HashMap {
   constructor(buckets = Array(16)) {
     this.buckets = buckets;
@@ -15,7 +17,9 @@ export default class HashMap {
     const primeNumber = 31;
     for (let i = 0; i < key.length; i += 1) {
       hashCode = primeNumber * hashCode + key.charCodeAt(i);
+      hashCode %= this.buckets.length;
     }
+    console.log(hashCode);
     return hashCode;
   }
 
@@ -23,6 +27,16 @@ export default class HashMap {
     // key and value pair
     // if key exists, then old value is overwritten
     // or we can say updated key's value
+    const index = this.hash(key);
+    if (this.buckets[index] === undefined) {
+      const list = new LinkedList();
+      list.append(key, value);
+      this.buckets[index] = list;
+    } else {
+      this.buckets[index].append(key, value);
+    }
+    console.log(this.buckets[index]);
+    // using the hashCode index, return this key value pair inside a linked list
   }
 
   get(key) {
