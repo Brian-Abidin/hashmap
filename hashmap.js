@@ -1,12 +1,38 @@
 import LinkedList from "./linkedlist.js";
 
 export default class HashMap {
-  constructor(buckets = Array(16)) {
-    this.buckets = buckets;
+  constructor() {
+    this.capacity = 16;
+    this.loadFactor = 0.75;
+    this.buckets = Array(this.capacity);
+  }
 
-    // if (index < 0 || index >= buckets.length) {
-    //   throw new Error("Trying to access index out of bound");
-    // }
+  copy(array) {
+    // use when buckets have exceeded capacity * loadFactor
+    console.log(array.length);
+    const temp = this.entries();
+    this.buckets = array;
+    temp.forEach((pair) => this.set(pair[0], pair[1]));
+  }
+
+  check() {
+    // checks if hashmap needs to grow
+    if (this.length() > this.capacity * this.loadFactor) {
+      this.capacity *= 2;
+      const tempArray = Array(this.capacity);
+      this.copy(tempArray);
+      console.log(`There are now ${this.buckets.length} buckets`);
+      return;
+    }
+    if (Math.floor(this.capacity * this.loadFactor) - this.length() === 0) {
+      console.log("buckets will double on setting next node");
+    } else {
+      console.log(
+        `${
+          Math.floor(this.capacity * this.loadFactor) - this.length()
+        } more node(s) until buckets doubles!`
+      );
+    }
   }
 
   hash(key) {
@@ -17,9 +43,12 @@ export default class HashMap {
     const primeNumber = 31;
     for (let i = 0; i < key.length; i += 1) {
       hashCode = primeNumber * hashCode + key.charCodeAt(i);
-      hashCode %= this.buckets.length;
+      hashCode %= this.capacity;
     }
-    console.log(hashCode, "hash");
+
+    if (hashCode < 0 || hashCode >= this.buckets.length) {
+      throw new Error("Trying to access index out of bound");
+    }
     return hashCode;
   }
 
@@ -28,29 +57,23 @@ export default class HashMap {
     // if key exists, then old value is overwritten
     // or we can say updated key's value
     const index = this.hash(key);
-    if (
-      this.buckets[index] === undefined ||
-      this.buckets[index].head === null
-    ) {
+    if (this.buckets[index] === undefined) {
       const list = new LinkedList();
       list.append(key, value);
       this.buckets[index] = list;
     } else {
       let temp = this.buckets[index].head;
-      console.log(temp);
-
-      while (temp !== undefined) {
-        console.log(temp, "test");
+      while (temp !== undefined && temp !== null) {
         if (temp.key === key) {
           temp.value = value;
+          console.log(`changed ${key} value to ${value}`);
           return;
         }
-        temp = this.buckets[index].nextNode;
+        temp = temp.nextNode;
       }
-      console.log(temp);
       this.buckets[index].append(key, value);
     }
-    console.log(this.buckets[index].head);
+    this.check();
     // using the hashCode index, return this key value pair inside a linked list
   }
 
@@ -61,8 +84,8 @@ export default class HashMap {
     if (this.buckets[index] === undefined) return null;
 
     let temp = this.buckets[index].head;
-    console.log(temp);
-    while (temp !== undefined || temp === null) {
+    while (temp !== undefined && temp !== null) {
+      console.log(temp);
       if (temp.key === key) return temp.value;
       temp = temp.nextNode;
     }
@@ -74,7 +97,7 @@ export default class HashMap {
     // the key is in the hash map
     const index = this.hash(key);
     if (this.buckets[index] === undefined) return false;
-    const temp = this.buckets[index].head;
+    let temp = this.buckets[index].head;
     while (temp !== undefined) {
       if (temp.key === key) return true;
       temp = temp.nextNode;
@@ -105,11 +128,9 @@ export default class HashMap {
     let count = 0;
     for (let i = 0; i < this.buckets.length; i += 1) {
       if (this.buckets[i] !== undefined) {
-        console.log(this.buckets[i].head);
         count += this.buckets[i].size();
       }
     }
-    console.log(count);
     return count;
   }
 
