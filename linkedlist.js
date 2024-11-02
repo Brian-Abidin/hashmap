@@ -7,7 +7,6 @@ export default class LinkedList {
 
   prepend(key, value) {
     const node = new Node(key, value);
-    console.log(node);
     let temp = null;
     if (this.head !== null) temp = this.head;
     this.head = node;
@@ -19,8 +18,8 @@ export default class LinkedList {
       this.prepend(key, value);
     } else {
       let temp = this.head;
-      while (this.head.nextNode !== null) {
-        temp = this.head.nextNode;
+      while (temp.nextNode !== null) {
+        temp = temp.nextNode;
       }
       temp.nextNode = new Node(key, value);
     }
