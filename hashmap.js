@@ -9,7 +9,6 @@ export default class HashMap {
 
   copy(array) {
     // use when buckets have exceeded capacity * loadFactor
-    console.log(array.length);
     const temp = this.entries();
     this.buckets = array;
     temp.forEach((pair) => this.set(pair[0], pair[1]));
@@ -85,7 +84,6 @@ export default class HashMap {
 
     let temp = this.buckets[index].head;
     while (temp !== undefined && temp !== null) {
-      console.log(temp);
       if (temp.key === key) return temp.value;
       temp = temp.nextNode;
     }
