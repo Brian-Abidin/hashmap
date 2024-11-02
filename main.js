@@ -1,29 +1,29 @@
 import HashMap from "./hashmap.js";
 import LinkedList from "./linkedlist.js";
 
-const hashMap = new HashMap();
+const test = new HashMap();
 const list = new LinkedList();
 
-hashMap.hash("Carlos");
-hashMap.hash("orCals");
+test.set("apple", "red");
+test.set("banana", "yellow");
+test.set("carrot", "orange");
+test.set("dog", "brown");
+test.set("elephant", "gray");
+test.set("frog", "green");
+test.set("grape", "purple");
+test.set("hat", "black");
+test.set("ice cream", "white");
+test.set("jacket", "blue");
+test.set("kite", "pink");
+test.set("lion", "golden");
 
-hashMap.set("John", "Madden");
-hashMap.set("Joe", "Smith");
-hashMap.set("John", "Smith");
-hashMap.set("Mary", "Jane");
-hashMap.set("Peter", "Griffin");
+test.set("lion", "blue");
+test.set("ice cream", "vanilla");
 
-console.log(hashMap.get("Mary"));
-console.log(hashMap.get("Bob"));
-console.log(hashMap.get("John"));
-
-console.log(hashMap.has("John"));
-console.log(hashMap.has("Bob"));
-
-console.log(hashMap.get("Mary"));
-
-hashMap.length();
-
-console.log(hashMap.keys());
-console.log(hashMap.values());
-hashMap.entries().forEach((ele) => console.log(ele));
+test.set("moon", "silver");
+console.log(test.has("lion"));
+test.clear();
+console.log(test.entries());
+test.set("frog", "bag");
+test.set("lion", "pink");
+console.log(test.length());
